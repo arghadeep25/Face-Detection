@@ -8,12 +8,13 @@ class CNNFaceDetector:
     """
         Face detection with CNN using dlib
     """
-    def __init__(self, frame, weight):
+    def __init__(self, frame):
         self.frame = frame
-        self.weight = weight
+
 
     def detection(self):
-        region_of_interest = dlib.cnn_face_detection_model_v1(self.weight)
+        weight = 'model/mmod_human_face_detector.dat'
+        region_of_interest = dlib.cnn_face_detection_model_v1(weight)
         faces = region_of_interest(self.frame, 1)
 
         for face in faces:
