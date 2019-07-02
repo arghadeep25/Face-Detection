@@ -1,5 +1,3 @@
-import os
-import sys
 import cv2
 import time
 from cnn_dlib import CNNFaceDetector
@@ -14,7 +12,7 @@ timestep1 = timestep0
 while True:
     timestep1 = time.time()
     ret, frame = video.read()
-    face_detector = FaceDetector(frame = frame)
+    face_detector = FaceDetector(frame=frame)
     # face_detector = CNNFaceDetector(frame = frame, weight = weight)
     # face_detector = HoGFaceDetector(frame = frame)
 

@@ -1,6 +1,4 @@
 import cv2
-import numpy as np
-import time
 import dlib
 
 
@@ -10,7 +8,6 @@ class CNNFaceDetector:
     """
     def __init__(self, frame):
         self.frame = frame
-
 
     def detection(self):
         weight = 'model/mmod_human_face_detector.dat'
@@ -23,5 +20,9 @@ class CNNFaceDetector:
             w = face.rect.right() - x
             h = face.rect.bottom() - y
 
-            cv2.rectangle(self.frame, (x,y), (x+w, y+h), (0,0,255), 2)
+            cv2.rectangle(self.frame,
+                          (x, y),
+                          (x+w, y+h),
+                          (0, 0, 255),
+                          2)
         return self.frame

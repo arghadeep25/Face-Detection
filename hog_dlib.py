@@ -1,6 +1,4 @@
 import cv2
-import numpy as np
-import time
 import dlib
 
 
@@ -21,5 +19,9 @@ class HoGFaceDetector:
             w = face.right() - x
             h = face.bottom() - y
 
-            cv2.rectangle(self.frame, (x,y), (x+w, y+h), (0,0,255), 2)
+            cv2.rectangle(self.frame,
+                          (x, y),
+                          (x+w, y+h),
+                          (0, 0, 255),
+                          2)
         return self.frame
