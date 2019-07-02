@@ -4,7 +4,7 @@ import cv2
 import time
 from cnn_dlib import CNNFaceDetector
 from hog_dlib import HoGFaceDetector
-from face_cvlib import FaceDetector
+from ssd_face_detector import FaceDetector
 
 video = cv2.VideoCapture(0)
 # weight = 'mmod_human_face_detector.dat'
@@ -17,7 +17,7 @@ while True:
     face_detector = FaceDetector(frame = frame)
     # face_detector = CNNFaceDetector(frame = frame, weight = weight)
     # face_detector = HoGFaceDetector(frame = frame)
-    
+
     count += 1
 
     detected_frame = face_detector.detection()
