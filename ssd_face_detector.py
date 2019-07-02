@@ -1,6 +1,5 @@
 import os
 import cv2
-import cvlib
 import numpy as np
 
 class FaceDetectorCaffe:
