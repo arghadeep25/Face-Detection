@@ -6,6 +6,11 @@ from detectors.hog_dlib import HoGFaceDetector
 from detectors.haarcascade import FaceDetectorHaar
 from detectors.ssd_face_detector import FaceDetector
 
+import line_profiler
+import atexit
+profile = line_profiler.LineProfiler()
+atexit.register(profile.print_stats)
+
 def cmd_line_parser():
     parser = argparse.ArgumentParser(description='Face Detection')
     parser.add_argument('-m', '--method',
@@ -29,6 +34,7 @@ def cmd_line_parser():
                         default = 'video')
     return parser.parse_args()
 
+@profile
 def main():
     args = cmd_line_parser()
 
@@ -47,6 +53,18 @@ def main():
             codec = cv2.VideoWriter_fourcc(*'XVID')
             writer = cv2.VideoWriter('output_cnn.avi',codec, 25.0, (width, height))
 
+        if args.method == 'haar':
+            face_detector = FaceDetectorHaar(frame=frame)
+        elif args.method == 'hog':
+            face_detector = HoGFaceDetector(frame=frame)
+        elif args.method == 'cnn':
+            face_detector = CNNFaceDetector(frame=frame)
+        elif args.method == 'ssd':
+            face_detector = FaceDetector()
+        else:
+            print('Face detection scheme not selected...')
+            return
+
         count = 0
         timestep0 = time.time()
         timestep1 = timestep0
@@ -54,20 +72,8 @@ def main():
             timestep1 = time.time()
             ret, frame = video.read()
             if ret == True:
-                if args.method == 'haar':
-                    face_detector = FaceDetectorHaar(frame=frame)
-                elif args.method == 'hog':
-                    face_detector = HoGFaceDetector(frame=frame)
-                elif args.method == 'cnn':
-                    face_detector = CNNFaceDetector(frame=frame)
-                elif args.method == 'ssd':
-                    face_detector = FaceDetector(frame=frame)
-                else:
-                    print('Face detection scheme not selected...')
-                    return
-
                 count += 1
-                detected_frame = face_detector.detection()
+                detected_frame = face_detector.detection(frame)
                 cv2.imshow('Face Detection - Video', detected_frame)
                 writer.write(detected_frame)
                 if timestep1 >= timestep0 + 1:
